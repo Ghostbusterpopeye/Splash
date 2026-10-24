@@ -1,3 +1,5 @@
+import "./Island.css";
+
 function MediaPlaceholder() {
   return (
     <div className="media">
