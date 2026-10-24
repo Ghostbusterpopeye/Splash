@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Pomodoro from "./Pomodoro";
-import MediaPlaceholder from "./MediaPlaceholder";
+import Media from "./Media";
 import "./Island.css";
 
 const COLLAPSED = { width: 140, height: 38 };
@@ -42,7 +42,7 @@ function Island() {
               <Pomodoro />
             </div>
             <div className="widget media">
-              <MediaPlaceholder />
+              <Media />
             </div>
           </motion.div>
         ) : (
