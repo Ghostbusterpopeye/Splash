@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Pomodoro from "./Pomodoro";
+import MediaPlaceholder from "./MediaPlaceholder";
 import "./Island.css";
+
+const COLLAPSED = { width: 140, height: 38 };
+const EXPANDED = { width: 320, height: 56 };
 
 function Island() {
   const [now, setNow] = useState(() => new Date());
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
@@ -13,9 +20,45 @@ function Island() {
   const mm = String(now.getMinutes()).padStart(2, "0");
 
   return (
-    <div className="island">
-      {hh}:{mm}
-    </div>
+    <motion.div
+      className="island"
+      style={{ borderRadius: 999 }}
+      animate={hovered ? EXPANDED : COLLAPSED}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+    >
+      <AnimatePresence mode="wait">
+        {hovered ? (
+          <motion.div
+            key="widgets"
+            className="widgets"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+          >
+            <div className="widget">
+              <Pomodoro />
+            </div>
+            <div className="widget media">
+              <MediaPlaceholder />
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="clock"
+            className="clock"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+          >
+            {hh}:{mm}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
